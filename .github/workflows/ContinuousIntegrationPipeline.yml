@@ -116,7 +116,7 @@ jobs:
 
       - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f frontendDeployment.yml
-          kubectl apply -f frontendService.yml
-          kubectl apply -f backendDeployment.yml
-          kubectl apply -f backendService.yml
+          kubectl apply -f k8s/frontendDeployment.yml
+          kubectl apply -f k8s/frontendService.yml
+          kubectl apply -f k8s/backendDeployment.yml
+          kubectl apply -f k8s/backendService.yml
