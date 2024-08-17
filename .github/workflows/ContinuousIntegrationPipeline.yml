@@ -100,3 +100,23 @@ jobs:
     - name: Tear down Docker Compose
       if: always()
       run: docker compose down
+
+  Deploy:
+    runs-on: ubuntu-latest
+    needs: [test]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create .kube directory
+        run: mkdir -p $HOME/.kube
+
+      - name: Set up kubectl
+        run: echo "${{ secrets.KUBECONFIG }}" | base64 -d > $HOME/.kube/config
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f k8s/frontendDeployment.yml
+          kubectl apply -f k8s/frontendService.yml
+          kubectl apply -f k8s/backendDeployment.yml
+          kubectl apply -f k8s/backendService.yml
