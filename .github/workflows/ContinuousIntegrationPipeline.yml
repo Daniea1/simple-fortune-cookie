@@ -128,10 +128,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Wait for drontend deployment
+      - name: Deploy Application
         run: |
-          echo "Waiting for frontend deployment."
-          kubectl rollout status deployment/frontend-deployment
+          docker compose up -d
+
+      - name: Grant execute permissions to testScript.sh
+        run: chmod +x ./testScript.sh
 
       - name: Run front-end test script
         run: ./testScript.sh
+
+      - name: Tear down Application
+        if: failure() || success()
+        run: |
+          docker compose down
