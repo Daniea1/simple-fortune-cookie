@@ -120,3 +120,18 @@ jobs:
           kubectl apply -f k8s/frontendService.yml
           kubectl apply -f k8s/backendDeployment.yml
           kubectl apply -f k8s/backendService.yml
+
+  TestFrontend:
+    runs-on: ubuntu-latest
+    needs: [Deploy]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Wait for drontend deployment
+        run: |
+          echo "Waiting for frontend deployment."
+          kubectl rollout status deployment/frontend-deployment
+
+      - name: Run front-end test script
+        run: ./test_frontend.sh
