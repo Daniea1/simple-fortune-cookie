@@ -134,4 +134,4 @@ jobs:
           kubectl rollout status deployment/frontend-deployment
 
       - name: Run front-end test script
-        run: ./test_frontend.sh
+        run: ./testScript.sh
